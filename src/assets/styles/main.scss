@@ -1,0 +1,198 @@
+// Import Tailwind CSS first
+@import '../../../src/index.css';
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+// Dracula Theme Variables
+$background: #282a36;
+$current-line: #44475a;
+$foreground: #f8f8f2;
+$comment: #6272a4;
+$cyan: #8be9fd;
+$green: #50fa7b;
+$orange: #ffb86c;
+$pink: #ff79c6;
+$purple: #bd93f9;
+$red: #ff5555;
+$yellow: #f1fa8c;
+
+// Shadows
+$box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+$box-shadow-md:
+  0 4px 6px -1px rgba(0, 0, 0, 0.3),
+  0 2px 4px -1px rgba(0, 0, 0, 0.2);
+$box-shadow-lg:
+  0 10px 15px -3px rgba(0, 0, 0, 0.3),
+  0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: 640px) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (min-width: 1024px) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media (min-width: 1280px) {
+      @content;
+    }
+  } @else if $breakpoint == 2xl {
+    @media (min-width: 1536px) {
+      @content;
+    }
+  }
+}
+
+// Additional global styles that complement Tailwind
+html {
+  scroll-behavior: smooth;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+body {
+  background-color: $background;
+  color: $foreground;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// CSS Reset enhancements
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// Dracula theme specific styles
+.text-purple {
+  color: $purple;
+}
+.text-pink {
+  color: $pink;
+}
+.text-cyan {
+  color: $cyan;
+}
+.text-green {
+  color: $green;
+}
+.text-yellow {
+  color: $yellow;
+}
+.text-red {
+  color: $red;
+}
+.text-orange {
+  color: $orange;
+}
+.text-foreground {
+  color: $foreground;
+}
+.text-comment {
+  color: $comment;
+}
+
+.bg-purple {
+  background-color: $purple;
+}
+.bg-pink {
+  background-color: $pink;
+}
+.bg-cyan {
+  background-color: $cyan;
+}
+.bg-green {
+  background-color: $green;
+}
+.bg-yellow {
+  background-color: $yellow;
+}
+.bg-red {
+  background-color: $red;
+}
+.bg-orange {
+  background-color: $orange;
+}
+.bg-background {
+  background-color: $background;
+}
+.bg-current-line {
+  background-color: $current-line;
+}
+
+.border-purple {
+  border-color: $purple;
+}
+.border-pink {
+  border-color: $pink;
+}
+.border-current-line {
+  border-color: $current-line;
+}
+
+// Helper classes (that don't conflict with Tailwind)
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Animation classes
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Code styling
+code,
+pre {
+  font-family: 'Fira Code', monospace;
+}
+
+// Print styles
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

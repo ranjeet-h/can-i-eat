@@ -1,68 +1,131 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import 'tailwindcss';
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  /* Typography */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  /* Dracula Theme Colors */
+  --color-background: #282a36; /* Background */
+  --color-current-line: #44475a; /* Current Line */
+  --color-selection: #44475a; /* Selection */
+  --color-foreground: #f8f8f2; /* Foreground */
+  --color-comment: #6272a4; /* Comment */
+  --color-cyan: #8be9fd; /* Cyan */
+  --color-green: #50fa7b; /* Green */
+  --color-orange: #ffb86c; /* Orange */
+  --color-pink: #ff79c6; /* Pink */
+  --color-purple: #bd93f9; /* Purple */
+  --color-red: #ff5555; /* Red */
+  --color-yellow: #f1fa8c; /* Yellow */
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+  /* Main theme mappings */
+  --color-primary-500: var(--color-purple);
+  --color-primary-600: #a881f7; /* Slightly darker purple */
+  --color-primary-700: #9671e3; /* Even darker purple */
+  --color-primary-800: #8460d0; /* Darkest purple */
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+  --color-secondary-500: var(--color-pink);
+  --color-secondary-600: #ff5db8; /* Slightly darker pink */
+  --color-secondary-700: #ff41aa; /* Even darker pink */
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+  --color-accent-500: var(--color-cyan);
+  --color-accent-600: #6de5fd; /* Slightly darker cyan */
+  --color-accent-700: #4ee0fc; /* Even darker cyan */
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* Dark theme colors */
+  --color-dark-950: var(--color-background);
+  --color-dark-900: #2d303e; /* Slightly lighter than background */
+  --color-dark-800: var(--color-current-line);
+  --color-dark-700: #4e526a; /* Slightly lighter than current line */
+
+  /* Light theme colors */
+  --color-light-50: var(--color-foreground);
+  --color-light-100: #f0f0ea; /* Slightly darker foreground */
+  --color-light-200: #e8e8e2; /* Even darker foreground */
+  --color-light-300: #e0e0da; /* Darkest foreground */
+
+  /* Success, Error, Warning, Info */
+  --color-success: var(--color-green);
+  --color-error: var(--color-red);
+  --color-warning: var(--color-orange);
+  --color-info: var(--color-cyan);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Custom base styles and resets */
+@layer base {
+  body {
+    @apply bg-dark-950 text-light-50;
   }
+
+  /* Modern scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-800;
+  }
+
+  a {
+    @apply text-cyan transition-colors duration-200;
+  }
+
   a:hover {
-    color: #747bff;
+    @apply text-accent-600;
   }
-  button {
-    background-color: #f9f9f9;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-light-50 font-bold;
+  }
+
+  code {
+    @apply text-yellow bg-dark-900 rounded px-1 py-0.5 font-mono;
   }
 }
+
+/* Custom components */
+@layer components {
+  .btn {
+    @apply rounded-md px-4 py-2 font-medium transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 text-light-50 hover:bg-primary-600 active:bg-primary-700 shadow-md hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-500 text-light-50 hover:bg-secondary-600 active:bg-secondary-700 shadow-md hover:shadow-lg;
+  }
+
+  .card {
+    @apply bg-dark-900 border-dark-800 rounded-lg border p-6 shadow-lg;
+  }
+
+  .form-input {
+    @apply border-dark-700 bg-dark-800 text-light-50 focus:ring-primary-500 w-full rounded-md border px-4 py-2 focus:ring-2 focus:outline-none;
+  }
+
+  .logo {
+    @apply relative text-2xl font-bold;
+  }
+
+  .logo-accent {
+    @apply text-primary-500;
+  }
+}
+
+/* Dark mode configuration - not needed as we're in dark mode by default */
+/* @variant dark (&:where(.dark, .dark *)); */

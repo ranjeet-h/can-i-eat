@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+
+.layout-container {
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.header-gradient {
+  height: 0.25rem;
+  width: 100%;
+  background-image: linear-gradient(
+    to right,
+    var(--color-purple),
+    var(--color-pink),
+    var(--color-cyan)
+  );
+}
+
+.app-header {
+  border-bottom: 1px solid var(--color-current-line);
+}
+
+.app-main {
+  /* No specific styles needed, but can be added later */
+}
+
+.app-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--color-current-line);
+}
+
+.theme-toggle-btn {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  background-color: var(--color-current-line);
+  color: var(--color-foreground);
+  transition-property: background-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.theme-toggle-btn:hover {
+  background-color: color-mix(in srgb, var(--color-current-line) 80%, white);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  position: relative;
+}
