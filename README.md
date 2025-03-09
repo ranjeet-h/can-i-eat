@@ -2,8 +2,6 @@
 
 <div align="center">
   
-  ![Can I Eat Logo](https://via.placeholder.com/150/44475a/f8f8f2?text=Can+I+Eat)
-  
   [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
   [![React](https://img.shields.io/badge/React-18.2.0-61dafb.svg)](https://reactjs.org/)
   [![Vite](https://img.shields.io/badge/Vite-5.0.0-646cff.svg)](https://vitejs.dev/)
@@ -144,35 +142,37 @@ The application aims to empower consumers by translating complex food labels int
 
   <p><em><b>Mobile View</b></em></p>
   
-  <div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-    <div style="flex: 0 1 300px;">
-      <img src="src/screenshots/homepage-mobile.png" alt="Mobile View" width="300px" />
-      <p><em>Mobile View: Homepage Search</em></p>
-    </div>
-    
-    <div style="flex: 0 1 300px;">
-      <img src="src/screenshots/contribute-add-product-mobile.png" alt="Mobile View" width="300px" />
-      <p><em>Mobile View: Contribute Add Product</em></p>
-    </div>
-    
-    <div style="flex: 0 1 300px;">
-      <img src="src/screenshots/submit-review-mobile.png" alt="Mobile View" width="300px" />
-      <p><em>Mobile View: Review contribution</em></p>
-    </div>
-    
-    <div style="flex: 0 1 300px;">
-      <img src="src/screenshots/admin-dashboard-mobile.png" alt="Mobile View" width="300px" />
-      <p><em>Mobile View: Admin Dashboard</em></p>
-    </div>
-    
-    <div style="flex: 0 1 300px;">
-      <img src="src/screenshots/admin-add-product-mobile.png" alt="Mobile View" width="300px" />
-      <p><em>Mobile View: Admin Add Product</em></p>
-    </div>
-  </div>
+  <table>
+    <tr>
+      <td align="center" width="300px">
+        <img src="src/screenshots/homepage-mobile.png" alt="Mobile View" width="250px" />
+        <p><em>Mobile View: Homepage Search</em></p>
+      </td>
+      <td align="center" width="300px">
+        <img src="src/screenshots/contribute-add-product-mobile.png" alt="Mobile View" width="250px" />
+        <p><em>Mobile View: Contribute Add Product</em></p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" width="300px">
+        <img src="src/screenshots/submit-review-mobile.png" alt="Mobile View" width="250px" />
+        <p><em>Mobile View: Review contribution</em></p>
+      </td>
+      <td align="center" width="300px">
+        <img src="src/screenshots/admin-dashboard-mobile.png" alt="Mobile View" width="250px" />
+        <p><em>Mobile View: Admin Dashboard</em></p>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="2">
+        <img src="src/screenshots/admin-add-product-mobile.png" alt="Mobile View" width="250px" />
+        <p><em>Mobile View: Admin Add Product</em></p>
+      </td>
+    </tr>
+  </table>
 </div>
 
-## �� Project Structure
+## 📁 Project Structure
 
 ```
 can-i-eat/
