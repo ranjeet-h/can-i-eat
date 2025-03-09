@@ -142,26 +142,37 @@ The application aims to empower consumers by translating complex food labels int
   <img src="src/screenshots/admin-db-product-contribution-review.png" alt="Contribution Review" width="80%" />
   <p><em>Admin Dashboard: Review User Contributions</em></p>
 
-  <div align="center" style="display: flex; flex-direction: column; gap: 20px;">
   <p><em><b>Mobile View</b></em></p>
-  <img src="src/screenshots/homepage-mobile.png" alt="Mobile View" width="80%" />
-  <p><em>Mobile View: Homepage Search</em></p>
-
-  <img src="src/screenshots/contribute-add-product-mobile.png" alt="Mobile View" width="80%" />
-  <p><em>Mobile View: Contribute Add Product</em></p>
-
-  <img src="src/screenshots/submit-review-mobile.png" alt="Mobile View" width="80%" />
-  <p><em>Mobile View: Review contribution</em></p>
-
-  <img src="src/screenshots/admin-dashboard-mobile.png" alt="Mobile View" width="80%" />
-  <p><em>Mobile View: Admin Dashboard</em></p>
-
-  <img src="src/screenshots/admin-add-product-mobile.png" alt="Mobile View" width="80%" />
-  <p><em>Mobile View: Admin Add Product</em></p>
+  
+  <div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    <div style="flex: 0 1 300px;">
+      <img src="src/screenshots/homepage-mobile.png" alt="Mobile View" width="300px" />
+      <p><em>Mobile View: Homepage Search</em></p>
+    </div>
+    
+    <div style="flex: 0 1 300px;">
+      <img src="src/screenshots/contribute-add-product-mobile.png" alt="Mobile View" width="300px" />
+      <p><em>Mobile View: Contribute Add Product</em></p>
+    </div>
+    
+    <div style="flex: 0 1 300px;">
+      <img src="src/screenshots/submit-review-mobile.png" alt="Mobile View" width="300px" />
+      <p><em>Mobile View: Review contribution</em></p>
+    </div>
+    
+    <div style="flex: 0 1 300px;">
+      <img src="src/screenshots/admin-dashboard-mobile.png" alt="Mobile View" width="300px" />
+      <p><em>Mobile View: Admin Dashboard</em></p>
+    </div>
+    
+    <div style="flex: 0 1 300px;">
+      <img src="src/screenshots/admin-add-product-mobile.png" alt="Mobile View" width="300px" />
+      <p><em>Mobile View: Admin Add Product</em></p>
+    </div>
   </div>
 </div>
 
-## 📁 Project Structure
+## �� Project Structure
 
 ```
 can-i-eat/
