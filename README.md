@@ -1,7 +1,7 @@
 # 🍎 Can I Eat
 
 <div align="center">
-  
+
   [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
   [![React](https://img.shields.io/badge/React-18.2.0-61dafb.svg)](https://reactjs.org/)
   [![Vite](https://img.shields.io/badge/Vite-5.0.0-646cff.svg)](https://vitejs.dev/)
@@ -155,7 +155,7 @@ The application aims to empower consumers by translating complex food labels int
     </tr>
     <tr>
       <td align="center" width="300px">
-        <img src="src/screenshots/submit-review-mobile.png" alt="Mobile View" width="250px" />
+        <img src="src/screenshots/sub-review-mobile.png" alt="Mobile View" width="250px" />
         <p><em>Mobile View: Review contribution</em></p>
       </td>
       <td align="center" width="300px">
