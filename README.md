@@ -114,6 +114,7 @@ The application aims to empower consumers by translating complex food labels int
 ## 📸 Screenshots
 
 <div align="center">
+  <p><em><b>Desktop View</b></em></p>
   <img src="src/screenshots/homepage-1.png" alt="Homepage Search" width="80%" />
   <p><em>Homepage with Search and Featured Products</em></p>
   
@@ -140,6 +141,22 @@ The application aims to empower consumers by translating complex food labels int
   
   <img src="src/screenshots/admin-db-product-contribution-review.png" alt="Contribution Review" width="80%" />
   <p><em>Admin Dashboard: Review User Contributions</em></p>
+
+  <p><em><b>Mobile View</b></em></p>
+  <img src="src/screenshots/homepage-mobile.png" alt="Mobile View" width="80%" />
+  <p><em>Mobile View: Homepage Search</em></p>
+
+  <img src="src/screenshots/contribute-add-product-mobile.png" alt="Mobile View" width="80%" />
+  <p><em>Mobile View: Contribute Add Product</em></p>
+
+  <img src="src/screenshots/submit-review-mobile.png" alt="Mobile View" width="80%" />
+  <p><em>Mobile View: Review contribution</em></p>
+
+  <img src="src/screenshots/admin-dashboard-mobile.png" alt="Mobile View" width="80%" />
+  <p><em>Mobile View: Admin Dashboard</em></p>
+
+  <img src="src/screenshots/admin-add-product-mobile.png" alt="Mobile View" width="80%" />
+  <p><em>Mobile View: Admin Add Product</em></p>
 </div>
 
 ## 📁 Project Structure
