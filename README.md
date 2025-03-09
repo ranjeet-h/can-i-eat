@@ -303,6 +303,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <p>© 2024 Can I Eat. All rights reserved.</p>
 </div>
 
+<code>
 API URL: http://127.0.0.1:54321
 GraphQL URL: http://127.0.0.1:54321/graphql/v1
 
@@ -316,3 +317,10 @@ service_role key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZ
 S3 Access Key: 625729a08b95bf1b7ff351a663f3a23c
 S3 Secret Key: 850181e4652dd023b7a98c58ae0d2d34bd487ee0cc3254aed6eda37307425907
 S3 Region: local
+</code>
+
+## 🔧 Local Development Environment
+
+### Supabase Local Setup
+
+When running the project locally with Supabase, you can use these connection details:
