@@ -1,7 +1,7 @@
 ---
 description: Libraries used in this project
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Please follow the below list of libraries and there links while writing code
@@ -10,3 +10,5 @@ alwaysApply: false
 - React icons link:- https://react-icons.github.io/react-icons/icons/ai/
 - scss
 - supabse local link:- https://supabase.com/docs
+- daisyui@latest :- https://daisyui.com/components/button/
+- @headlessui/react :- https://headlessui.com/react/menu#installation

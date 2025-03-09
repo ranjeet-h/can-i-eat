@@ -1,185 +1,140 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import AutocompleteSearchBar from '../components/search/AutocompleteSearchBar';
+import {
+  useTrendingProducts,
+  useCategories,
+  useHealthInsightsProducts,
+  useRecentlyViewedProducts,
+} from '../hooks/useHomeData';
+import { addToRecentlyViewed } from '../utils/recentlyViewed';
 import './Home.css';
 
-// Mock data for featured categories (will be replaced with real data from API)
-const foodCategories = [
-  {
-    id: 1,
-    name: 'Snacks',
-    icon: '🍿',
-    color: 'text-orange border-orange/30 hover:border-orange/60',
-  },
-  { id: 2, name: 'Beverages', icon: '🥤', color: 'text-cyan border-cyan/30 hover:border-cyan/60' },
-  {
-    id: 3,
-    name: 'Dairy',
-    icon: '🥛',
-    color: 'text-light-50 border-light-50/30 hover:border-light-50/60',
-  },
-  {
-    id: 4,
-    name: 'Breakfast',
-    icon: '🥣',
-    color: 'text-yellow border-yellow/30 hover:border-yellow/60',
-  },
-  {
-    id: 5,
-    name: 'Ready to Eat',
-    icon: '🍲',
-    color: 'text-green border-green/30 hover:border-green/60',
-  },
-  {
-    id: 6,
-    name: 'Chocolates',
-    icon: '🍫',
-    color: 'text-purple border-purple/30 hover:border-purple/60',
-  },
-];
+// Type for category used in UI
+interface CategoryUI {
+  id: number;
+  name: string;
+  icon: string;
+  count: number;
+  color: string;
+}
 
-// Mock trending products (will be replaced with real data)
-const trendingProducts = [
-  {
-    id: 101,
-    name: 'Lays Classic Potato Chips',
-    brand: 'Lays',
-    healthScore: 68,
-    ingredients: ['Potatoes', 'Vegetable Oil', 'Salt'],
-    compatibility: {
-      vegan: true,
-      vegetarian: true,
-      glutenFree: true,
-      dairyFree: true,
-    },
-  },
-  {
-    id: 102,
-    name: 'Amul Pure Milk',
-    brand: 'Amul',
-    healthScore: 85,
-    ingredients: ['Milk', 'Vitamin A', 'Vitamin D'],
-    compatibility: {
-      vegan: false,
-      vegetarian: true,
-      glutenFree: true,
-      dairyFree: false,
-    },
-  },
-  {
-    id: 103,
-    name: 'Maggi 2-Minute Noodles',
-    brand: 'Nestle',
-    healthScore: 45,
-    ingredients: ['Wheat Flour', 'Vegetable Oil', 'Salt', 'MSG'],
-    compatibility: {
-      vegan: false,
-      vegetarian: true,
-      glutenFree: false,
-      dairyFree: false,
-    },
-  },
-  {
-    id: 104,
-    name: 'MTR Instant Upma',
-    brand: 'MTR',
-    healthScore: 72,
-    ingredients: ['Semolina', 'Spices', 'Salt', 'Dried Vegetables'],
-    compatibility: {
-      vegan: true,
-      vegetarian: true,
-      glutenFree: false,
-      dairyFree: true,
-    },
-  },
-];
+// Map categorical colors to ensure consistent UI
+const getCategoryColor = (index: number): string => {
+  const colors = [
+    'text-orange border-orange/30 hover:border-orange/60',
+    'text-cyan border-cyan/30 hover:border-cyan/60',
+    'text-light-50 border-light-50/30 hover:border-light-50/60',
+    'text-yellow border-yellow/30 hover:border-yellow/60',
+    'text-green border-green/30 hover:border-green/60',
+    'text-purple border-purple/30 hover:border-purple/60',
+    'text-pink border-pink/30 hover:border-pink/60',
+    'text-red border-red/30 hover:border-red/60',
+  ];
 
-// Mock recently viewed products (will be replaced with real data)
-const recentlyViewed = [
-  { id: 101, name: 'Lays Classic Potato Chips', brand: 'Lays', healthScore: 68 },
-  { id: 102, name: 'Amul Pure Milk', brand: 'Amul', healthScore: 85 },
-  { id: 103, name: 'Maggi 2-Minute Noodles', brand: 'Nestle', healthScore: 45 },
-];
+  return colors[index % colors.length];
+};
 
 // Mock featured insights (will be replaced with real data)
 const featuredInsights = [
   {
-    id: 201,
+    id: 1,
+    title: 'Benefits of Sugar-Free Alternatives',
+    excerpt:
+      'Discover how sugar substitutes can help reduce calorie intake without sacrificing sweetness.',
+    image: '🧪',
+  },
+  {
+    id: 2,
     title: 'Understanding Food Additives',
-    summary: 'Learn about common food additives and their health implications.',
-    icon: '🧪',
+    excerpt: 'Learn about common food additives, their purposes, and potential health impacts.',
+    image: '🔬',
   },
   {
-    id: 202,
-    title: 'Sugar in Packaged Foods',
-    summary: 'Hidden sugars in your favorite packaged foods and their alternatives.',
-    icon: '🍭',
-  },
-  {
-    id: 203,
-    title: 'Decoding Nutrition Labels',
-    summary: 'A guide to understanding nutrition information on food packages.',
-    icon: '📋',
+    id: 3,
+    title: 'Plant-Based Protein Sources',
+    excerpt: 'Explore non-animal protein options that provide all the essential amino acids.',
+    image: '🌱',
   },
 ];
 
 // Dietary compatibility badges
 const CompatibilityBadges = ({ compatibility }: { compatibility: Record<string, boolean> }) => {
   return (
-    <div className="mt-2 flex gap-1">
-      {compatibility.vegan && (
-        <span className="bg-green/20 text-green rounded px-1.5 py-0.5 text-xs font-medium">
-          Vegan
-        </span>
-      )}
-      {compatibility.vegetarian && (
-        <span className="bg-green/20 text-green rounded px-1.5 py-0.5 text-xs font-medium">
-          Vegetarian
-        </span>
-      )}
-      {compatibility.glutenFree && (
-        <span className="bg-cyan/20 text-cyan rounded px-1.5 py-0.5 text-xs font-medium">
-          Gluten-Free
-        </span>
-      )}
-      {compatibility.dairyFree && (
-        <span className="bg-cyan/20 text-cyan rounded px-1.5 py-0.5 text-xs font-medium">
-          Dairy-Free
-        </span>
+    <div className="flex flex-wrap gap-1">
+      {Object.entries(compatibility).map(
+        ([key, value]) =>
+          value && (
+            <span key={key} className="bg-green/10 text-green rounded-full px-1.5 py-0.5 text-xs">
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+            </span>
+          )
       )}
     </div>
   );
 };
 
 const HealthScoreBadge = ({ score }: { score: number }) => {
-  let scoreClass = '';
-
+  let colorClass = 'bg-red text-red-800';
   if (score >= 80) {
-    scoreClass = 'bg-green text-dark-950';
+    colorClass = 'bg-green text-green-800';
   } else if (score >= 60) {
-    scoreClass = 'bg-yellow text-dark-950';
+    colorClass = 'bg-yellow text-yellow-800';
   } else if (score >= 40) {
-    scoreClass = 'bg-orange text-dark-950';
-  } else {
-    scoreClass = 'bg-red text-dark-950';
+    colorClass = 'bg-orange text-orange-800';
   }
 
   return (
     <div
-      className={`flex h-10 w-10 items-center justify-center rounded-full font-bold shadow-md ${scoreClass}`}
+      className={`${colorClass} inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold`}
     >
       {score}
     </div>
   );
 };
 
+// Helper function to get emoji for category
+const getEmojiForCategory = (categoryName: string): string => {
+  const emojiMap: Record<string, string> = {
+    Snacks: '🍿',
+    Beverages: '🥤',
+    Dairy: '🥛',
+    Cereals: '🥣',
+    Bakery: '🍞',
+    Condiments: '🧂',
+    Spices: '🌶️',
+    Sweets: '🍫',
+    'Health Supplements': '💊',
+    Superfoods: '🌱',
+  };
+
+  return emojiMap[categoryName] || '🍽️'; // Default emoji
+};
+
 const Home = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+
+  // Fetch real data using our hooks
+  const { data: trendingProducts } = useTrendingProducts();
+  const { data: categoriesData } = useCategories();
+  const { data: healthInsightsProducts } = useHealthInsightsProducts();
+  const { data: recentlyViewed } = useRecentlyViewedProducts();
+
+  // Process categories data for UI
+  const foodCategories: CategoryUI[] = (categoriesData || []).map((category, index) => ({
+    id: category.id,
+    name: category.name,
+    icon: getEmojiForCategory(category.name),
+    count: typeof category.count === 'number' ? category.count : 0,
+    color: getCategoryColor(index),
+  }));
 
   const handleSearch = (query: string) => {
     console.log('Searching for:', query);
     // Navigate to search results page with query parameter
-    window.location.href = `/search?query=${encodeURIComponent(query)}`;
+    navigate(`/search?query=${encodeURIComponent(query)}`);
   };
 
   const handleCategoryClick = (categoryId: number) => {
@@ -193,15 +148,19 @@ const Home = () => {
       const category = foodCategories.find(cat => cat.id === categoryId);
       if (category) {
         // Navigate to search results with category filter
-        window.location.href = `/search?category=${encodeURIComponent(category.name)}`;
+        navigate(`/search?category=${encodeURIComponent(category.name)}`);
       }
     }
   };
 
   // Handler for product card click
-  const handleProductClick = (productId: number) => {
-    // Navigate to product details page
-    window.location.href = `/product/${productId}`;
+  const handleProductClick = (productId: string | undefined) => {
+    if (productId) {
+      // Add to recently viewed
+      addToRecentlyViewed(productId);
+      // Navigate to product details page
+      navigate(`/product/${productId}`);
+    }
   };
 
   return (
@@ -260,75 +219,67 @@ const Home = () => {
       {/* Trending Products Section */}
       <section className="py-8">
         <div className="container mx-auto">
-          <h2 className="mb-5 flex items-center text-2xl font-bold">
-            <span className="mr-2">🔥</span> Trending Products
-          </h2>
-
+          <h2 className="mb-6 text-2xl font-bold">Trending Products</h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {trendingProducts.map(product => (
+            {trendingProducts?.map(product => (
               <motion.div
                 key={product.id}
-                className="bg-dark-900 border-dark-800 hover:border-purple/40 cursor-pointer rounded-lg border p-6 shadow-lg transition-colors"
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="bg-dark-900 border-dark-800 hover:border-purple/50 cursor-pointer overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-md"
+                whileHover={{ y: -5 }}
                 onClick={() => handleProductClick(product.id)}
               >
-                <div className="mb-2 flex items-start justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold">{product.name}</h3>
-                    <p className="text-comment text-sm">{product.brand}</p>
+                <div className="p-4">
+                  <div className="mb-3 flex items-start justify-between">
+                    <div>
+                      <h3 className="font-bold">{product.name}</h3>
+                      <p className="text-comment text-sm">{product.brand}</p>
+                    </div>
+                    <HealthScoreBadge score={product.health_score || 0} />
                   </div>
-                  <HealthScoreBadge score={product.healthScore} />
-                </div>
 
-                <div className="border-dark-800 mt-3 border-t pt-3">
-                  <p className="text-comment mb-1 text-xs">Key Ingredients:</p>
-                  <p className="text-sm">{product.ingredients.join(', ')}</p>
-                  <CompatibilityBadges compatibility={product.compatibility} />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-6 text-center">
-            <motion.button
-              className="bg-purple text-light-50 hover:bg-primary-600 active:bg-primary-700 rounded-md px-4 py-2 font-medium shadow-md transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => (window.location.href = '/search')}
-            >
-              Browse All Products
-            </motion.button>
-          </div>
-        </div>
-      </section>
-
-      {/* Recently Viewed Section (like caniuse.com) */}
-      <section className="py-8">
-        <div className="container mx-auto">
-          <h2 className="mb-5 flex items-center text-2xl font-bold">
-            <span className="mr-2">🕒</span> Recently Viewed
-          </h2>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {recentlyViewed.map(product => (
-              <motion.div
-                key={product.id}
-                className="bg-dark-900 border-dark-800 hover:border-purple/40 cursor-pointer rounded-lg border p-6 shadow-lg transition-colors"
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                onClick={() => handleProductClick(product.id)}
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold">{product.name}</h3>
-                    <p className="text-comment text-sm">{product.brand}</p>
-                  </div>
-                  <HealthScoreBadge score={product.healthScore} />
+                  <CompatibilityBadges
+                    compatibility={{
+                      vegan: product.is_vegan || false,
+                      vegetarian: product.is_vegetarian || false,
+                      'gluten-free': product.is_gluten_free || false,
+                      organic: product.is_organic || false,
+                    }}
+                  />
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Recently Viewed Section */}
+      {recentlyViewed && recentlyViewed.length > 0 && (
+        <section className="py-8">
+          <div className="container mx-auto">
+            <h2 className="mb-6 text-2xl font-bold">Recently Viewed</h2>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {recentlyViewed.map(product => (
+                <motion.div
+                  key={product.id}
+                  className="bg-dark-900 border-dark-800 hover:border-purple/50 cursor-pointer overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-md"
+                  whileHover={{ y: -5 }}
+                  onClick={() => handleProductClick(product.id)}
+                >
+                  <div className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-bold">{product.name}</h3>
+                        <p className="text-comment text-sm">{product.brand}</p>
+                      </div>
+                      <HealthScoreBadge score={product.health_score || 0} />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Support Status Section (inspired by caniuse.com) */}
       <section className="py-8">
@@ -396,25 +347,40 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Health Insights */}
+      {/* Featured Health Insights Section */}
       <section className="py-8">
         <div className="container mx-auto">
-          <h2 className="mb-5 flex items-center text-2xl font-bold">
-            <span className="mr-2">💡</span> Featured Health Insights
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold">Featured Health Insights</h2>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {featuredInsights.map(insight => (
+            {healthInsightsProducts?.map(product => (
               <motion.div
-                key={insight.id}
-                className="bg-dark-900 border-dark-800 hover:border-cyan/40 cursor-pointer rounded-lg border p-6 shadow-lg transition-colors"
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                key={product.id}
+                className="bg-dark-900 border-dark-800 hover:border-purple/50 cursor-pointer overflow-hidden rounded-lg border transition-all duration-300"
+                whileHover={{ y: -5 }}
+                onClick={() => handleProductClick(product.id)}
               >
-                <div className="flex items-start">
-                  <div className="mr-4 text-2xl">{insight.icon}</div>
-                  <div>
-                    <h3 className="text-lg font-bold">{insight.title}</h3>
-                    <p className="text-comment text-sm">{insight.summary}</p>
+                <div className="p-4">
+                  <div className="flex flex-col">
+                    <div className="mb-2 flex items-center justify-between">
+                      <h3 className="font-bold">{product.name}</h3>
+                      <HealthScoreBadge score={product.health_score || 0} />
+                    </div>
+                    <p className="text-comment mb-2 text-sm">{product.brand}</p>
+                    <p className="mb-3 line-clamp-2 text-sm">{product.description}</p>
+
+                    {product.tags && product.tags.length > 0 && (
+                      <div className="mt-auto flex flex-wrap gap-1">
+                        {product.tags.slice(0, 3).map((tag: string) => (
+                          <span
+                            key={tag}
+                            className="bg-purple/10 text-purple rounded-full px-1.5 py-0.5 text-xs"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -438,7 +404,7 @@ const Home = () => {
                   Supporting "Label Padhega India"
                 </h2>
                 <p className="text-comment mb-4">
-                  Can I Eat empowers consumers to make informed food choices by providing
+                  "Can I Eat" empowers consumers to make informed food choices by providing
                   transparent information about packaged food products. Our mission is to promote
                   healthy eating habits and raise awareness about the ingredients in everyday foods.
                 </p>

@@ -114,7 +114,7 @@ const SearchBar = ({ onSearch, placeholder = 'Search for a food product...' }: S
 
           <motion.button
             type="submit"
-            className="bg-purple text-foreground hover:bg-primary-600 active:bg-primary-700 ml-2 rounded-lg p-3 transition-colors"
+            className="bg-purple text-foreground hover:bg-primary-600 active:bg-primary-700 ml-2 rounded-lg p-4 transition-colors"
             disabled={!query.trim()}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn, cx } from '../../utils/cn';
-import { useAutocomplete } from '../../hooks/useSearch';
-import { AutocompleteSuggestion } from '../../services/api';
+import { useSupabaseAutocomplete, AutocompleteSuggestion } from '../../hooks/useSupabaseSearch';
+import { useProductDetails } from '../../hooks/useSupabaseSearch';
 import ProductQuickView from '../product/ProductQuickView';
 
 interface AutocompleteSearchBarProps {
@@ -20,13 +20,13 @@ const AutocompleteSearchBar = ({
   const [isFocused, setIsFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputContainerRef = useRef<HTMLDivElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
   // Get autocomplete suggestions
-  const { data: suggestions = [], isLoading } = useAutocomplete(query);
+  const { data: suggestions = [], isLoading } = useSupabaseAutocomplete(query);
 
   // Handle clicking outside to close suggestions
   useEffect(() => {
@@ -268,7 +268,7 @@ const AutocompleteSearchBar = ({
             {query && (
               <motion.button
                 type="button"
-                className="text-white hover:text-foreground bg-purple absolute right-14 rounded-full p-1"
+                className="text-white hover:text-foreground bg-purple absolute right-16 rounded-full p-1"
                 onClick={() => {
                   setQuery('');
                   setShowSuggestions(false);
@@ -309,7 +309,7 @@ const AutocompleteSearchBar = ({
 
             <motion.button
               type="submit"
-              className="bg-purple text-foreground hover:bg-primary-600 active:bg-primary-700 ml-2 rounded-lg p-3 transition-colors"
+              className="bg-purple text-foreground hover:bg-primary-600 active:bg-primary-700 ml-2 rounded-lg p-3.5 transition-colors"
               disabled={!query.trim()}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -480,8 +480,10 @@ const AutocompleteSearchBar = ({
         )}
       </AnimatePresence>
 
-      {/* Product Quick View */}
-      <ProductQuickView productId={selectedProductId} onClose={closeProductDetails} />
+      {/* Product Quick View - only render when productId exists */}
+      {selectedProductId && (
+        <ProductQuickView productId={selectedProductId} onClose={closeProductDetails} />
+      )}
     </div>
   );
 };

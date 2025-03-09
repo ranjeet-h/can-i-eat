@@ -1,7 +1,8 @@
-import { StrictMode, useEffect } from 'react';
+import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAppStore } from './store/useAppStore';
+import { useAdminAuthStore } from './store/useAdminAuthStore';
 import App from './App.tsx';
 import './index.css';
 
@@ -16,10 +17,14 @@ const queryClient = new QueryClient({
   },
 });
 
-// Create a DarkModeWrapper component to handle dark mode syncing
-const DarkModeWrapper = ({ children }: { children: React.ReactNode }) => {
+// Create a AppWrapper component to handle initialization
+const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   // Use a stable selector
   const isDarkMode = useAppStore(state => state.isDarkMode);
+  // Check admin auth status on app load
+  const checkAdminSession = useAdminAuthStore(state => state.checkAdminSession);
+  // Track initial load
+  const [initialLoad, setInitialLoad] = useState(true);
 
   useEffect(() => {
     // Apply dark mode class to HTML element when necessary
@@ -32,6 +37,26 @@ const DarkModeWrapper = ({ children }: { children: React.ReactNode }) => {
       document.documentElement.classList.remove('light');
     }
   }, [isDarkMode]);
+
+  // Check admin session when app loads
+  useEffect(() => {
+    checkAdminSession();
+  }, [checkAdminSession]);
+
+  // Signal that React has loaded
+  useEffect(() => {
+    if (initialLoad) {
+      // A small delay to ensure everything is rendered
+      const timer = setTimeout(() => {
+        // Send a message to index.html when React has mounted
+        window.postMessage('can-i-eat-react-loaded', '*');
+        console.log('React app fully loaded');
+        setInitialLoad(false);
+      }, 300); // Reasonable delay for actual app loading
+      
+      return () => clearTimeout(timer);
+    }
+  }, [initialLoad]);
 
   return <>{children}</>;
 };
@@ -50,9 +75,9 @@ setDefaultMetaThemeColor();
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <DarkModeWrapper>
+      <AppWrapper>
         <App />
-      </DarkModeWrapper>
+      </AppWrapper>
     </QueryClientProvider>
   </StrictMode>
 );

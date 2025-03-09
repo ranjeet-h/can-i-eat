@@ -1,0 +1,10 @@
+---
+description: Strictly follow this instructions
+globs: 
+alwaysApply: true
+---
+# Strictly follow below guidelines
+- Allways follow my instructions mentioned in the chat request.
+- Use headlessui/react, daisyui@latest, and then tailwind_v4 you can search the @web if you need context. 
+- Dont tuch existing pages only mentioned in the request should be edited or if needed you can create new ones.
+
