@@ -142,6 +142,7 @@ The application aims to empower consumers by translating complex food labels int
   <img src="src/screenshots/admin-db-product-contribution-review.png" alt="Contribution Review" width="80%" />
   <p><em>Admin Dashboard: Review User Contributions</em></p>
 
+  <div align="center" style="display: flex; flex-direction: column; gap: 20px;">
   <p><em><b>Mobile View</b></em></p>
   <img src="src/screenshots/homepage-mobile.png" alt="Mobile View" width="80%" />
   <p><em>Mobile View: Homepage Search</em></p>
@@ -157,6 +158,7 @@ The application aims to empower consumers by translating complex food labels int
 
   <img src="src/screenshots/admin-add-product-mobile.png" alt="Mobile View" width="80%" />
   <p><em>Mobile View: Admin Add Product</em></p>
+  </div>
 </div>
 
 ## 📁 Project Structure
@@ -215,6 +217,7 @@ The application uses a PostgreSQL database (via Supabase) with the following str
 - **User_Profiles**: User preferences and saved products
 
 The database employs special features:
+
 - PostgreSQL's pg_trgm extension for fuzzy text search
 - Full-text search vectors for optimal search performance
 - Row-level security for user data protection
@@ -223,12 +226,14 @@ The database employs special features:
 ## 🔄 Data Flow
 
 1. **Search Process**:
+
    - User enters search query
    - Fuzzy text matching finds relevant products
    - Results are ranked by relevance
    - Cached for performance
 
 2. **Health Score Calculation**:
+
    - Ingredients analyzed for additives
    - Nutritional values compared to recommended daily values
    - Processing level estimated from ingredient list
